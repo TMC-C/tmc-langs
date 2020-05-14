@@ -54,3 +54,8 @@ __pycache__/
 *.pro.user*
 *.qmlc
 *.qmake.stash
+/tmc-langs-csharp/nbproject/
+
+# CSharp
+obj/
+bin/
