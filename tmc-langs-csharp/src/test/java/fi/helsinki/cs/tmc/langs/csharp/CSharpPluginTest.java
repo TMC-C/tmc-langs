@@ -1,6 +1,7 @@
 package fi.helsinki.cs.tmc.langs.csharp;
 
 import fi.helsinki.cs.tmc.langs.domain.RunResult;
+import fi.helsinki.cs.tmc.langs.domain.TestResult;
 import fi.helsinki.cs.tmc.langs.io.StudentFilePolicy;
 import fi.helsinki.cs.tmc.langs.utils.TestUtils;
 import java.nio.file.Path;
@@ -31,9 +32,21 @@ public class CSharpPluginTest {
     }
 
     @Test
-    public void testRunTestsRunsTests() {
+    public void testRunTestsPassing() {
         Path path = TestUtils.getPath(getClass(), "PassingProject");
         
-
+        RunResult runResult = this.csPlugin.runTests(path);
+        
+        assertEquals(RunResult.Status.PASSED, runResult.status);
+        
+    }
+    
+    @Test
+    public void testRunTestsFailing() {
+        Path path = TestUtils.getPath(getClass(), "FailingProject");
+        
+        RunResult runResult = this.csPlugin.runTests(path);
+        
+        assertEquals(RunResult.Status.TESTS_FAILED, runResult.status);
     }
 }

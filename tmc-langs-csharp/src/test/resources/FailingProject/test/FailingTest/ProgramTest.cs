@@ -1,14 +1,14 @@
 using System;
 using Xunit;
 
-namespace PassingTest 
+namespace FailingTest
 {
-    public class ProgramTest: IDisposable
+    public class ProgramTest
     {
         [Fact]
         public void Test1()
         {
-            Assert.Equal("a", "a");
+            Assert.Equal("abc", "ab");
         }
     }
 }

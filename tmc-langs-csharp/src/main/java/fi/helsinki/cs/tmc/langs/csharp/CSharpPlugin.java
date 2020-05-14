@@ -84,7 +84,7 @@ public class CSharpPlugin extends AbstractLanguagePlugin {
 
     @Override
     public RunResult runTests(Path path) {
-        deleteOldResults(path);
+//        deleteOldResults(path);
 
         ProcessRunner runner = new ProcessRunner(getTestCommand(), path);
 
