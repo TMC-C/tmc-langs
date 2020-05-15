@@ -1,8 +1,5 @@
 package fi.helsinki.cs.tmc.langs.csharp;
 
-import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Maps;
 import fi.helsinki.cs.tmc.langs.AbstractLanguagePlugin;
 import fi.helsinki.cs.tmc.langs.abstraction.Strategy;
 import fi.helsinki.cs.tmc.langs.abstraction.ValidationError;
@@ -17,6 +14,14 @@ import fi.helsinki.cs.tmc.langs.io.zip.StudentFileAwareUnzipper;
 import fi.helsinki.cs.tmc.langs.io.zip.StudentFileAwareZipper;
 import fi.helsinki.cs.tmc.langs.utils.ProcessResult;
 import fi.helsinki.cs.tmc.langs.utils.ProcessRunner;
+
+import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Maps;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -25,16 +30,25 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 public class CSharpPlugin extends AbstractLanguagePlugin {
 
     private static final Path SRC_PATH = Paths.get("src");
+
+    private static final String CANNOT_RUN_TESTS_MESSAGE = "Failed to run tests.";
+    private static final String CANNOT_PARSE_TEST_RESULTS_MESSAGE = "Failed to read test results.";
+    private static final String CANNOT_SCAN_EXERCISE_MESSAGE = "Failed to scan exercise.";
+    private static final String CANNOT_PARSE_EXERCISE_DESCRIPTION_MESSAGE =
+            "Failed to parse exercise description.";
+    private static final String CANNOT_LOCATE_RUNNER_MESSAGE = "Failed to locate runner.";
+    private static final String CANNOT_PURGE_OLD_RESULTS_MESSAGE =
+            "Failed to purge old test results.";
 
     private static Logger log = LoggerFactory.getLogger(CSharpPlugin.class);
 
@@ -67,16 +81,22 @@ public class CSharpPlugin extends AbstractLanguagePlugin {
         ProcessRunner runner = new ProcessRunner(getAvailablePointsCommand(), path);
 
         try {
-            runner.call();
+            ProcessResult result = runner.call();
+            
+            if (result.statusCode != 0) {
+                log.error(CANNOT_SCAN_EXERCISE_MESSAGE);
+                return Optional.absent();
+            }
         } catch (Exception e) {
-            log.error("Exercise scan error: ", e);
+            log.error(CANNOT_SCAN_EXERCISE_MESSAGE, e);
+            return Optional.absent();
         }
 
         try {
             ImmutableList<TestDesc> testDescs = new CSharpExerciseDescParser(path).parse();
             return Optional.of(new ExerciseDesc(exerciseName, testDescs));
         } catch (IOException e) {
-            log.error("Descrition parse error: ", e);
+            log.error(CANNOT_PARSE_EXERCISE_DESCRIPTION_MESSAGE, e);
         }
 
         return Optional.absent();
@@ -92,23 +112,25 @@ public class CSharpPlugin extends AbstractLanguagePlugin {
             ProcessResult result = runner.call();
 
             if (result.statusCode != 0) {
-                log.error("Process status code != 0");
+                log.error(CANNOT_RUN_TESTS_MESSAGE);
+                return null;
             }
         } catch (Exception e) {
-            log.error("Test execution error: ", e);
+            log.error(CANNOT_RUN_TESTS_MESSAGE, e);
+            return null;
         }
 
         try {
             return new CSharpTestResultParser(path).parse();
         } catch (IOException e) {
-            log.error("Test parse error: ", e);
+            log.error(CANNOT_PARSE_TEST_RESULTS_MESSAGE, e);
         }
 
         return null;
     }
 
     @Override
-    public ValidationResult checkCodeStyle(Path path, Locale messageLocale) throws UnsupportedOperationException {
+    public ValidationResult checkCodeStyle(Path path, Locale messageLocale) {
         return new ValidationResult() {
             @Override
             public Strategy getStrategy() {
@@ -130,12 +152,12 @@ public class CSharpPlugin extends AbstractLanguagePlugin {
         try {
             Files.deleteIfExists(path.resolve(".tmc_test_results.json"));
         } catch (Exception e) {
-            log.error("Old test result purging error: ", e);
+            log.error(CANNOT_PURGE_OLD_RESULTS_MESSAGE, e);
         }
     }
 
     private String[] getAvailablePointsCommand() {
-        return new String[]{"placeholder", "tmc", "available_points"};
+        return new String[]{"dotnet", getBootstrapPath(), "-p"};
     }
 
     private String[] getTestCommand() {
@@ -143,17 +165,21 @@ public class CSharpPlugin extends AbstractLanguagePlugin {
     }
 
     private String getBootstrapPath() {
+        String envVarPath = System.getenv("TMC_CSHARP_BOOTSTRAP_PATH");
+        if (envVarPath != null) {
+            return envVarPath;
+        }
+
         try {
             Scanner in = new Scanner(new FileReader("tmc-langs-csharp/bootstrapPath.txt"));
             return in.nextLine();
         } catch (Exception e) {
-            log.error("Runner locating error: ", e);
+            log.error(CANNOT_LOCATE_RUNNER_MESSAGE, e);
             return null;
         }
     }
 
     private boolean doesProjectContainCSharpFiles(Path path) {
-
         PathMatcher matcher = FileSystems.getDefault()
                 .getPathMatcher("glob:**.csproj");
 

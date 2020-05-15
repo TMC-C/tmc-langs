@@ -1,9 +1,11 @@
 package fi.helsinki.cs.tmc.langs.csharp;
 
+import fi.helsinki.cs.tmc.langs.domain.TestDesc;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
-import fi.helsinki.cs.tmc.langs.domain.TestDesc;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,7 +16,7 @@ import java.util.Map;
 
 public class CSharpExerciseDescParser {
 
-    private static final Path RESULT_FILE = Paths.get(".available_points.json");
+    private static final Path RESULT_FILE = Paths.get(".tmc_available_points.json");
     private static final TypeReference<Map<String, List<String>>> MAP_TYPE_REFERENCE
             = new TypeReference<Map<String, List<String>>>() {};
     
