@@ -1,6 +1,7 @@
 package fi.helsinki.cs.tmc.langs.csharp;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import fi.helsinki.cs.tmc.langs.domain.RunResult;
 import fi.helsinki.cs.tmc.langs.domain.TestResult;
@@ -46,9 +47,7 @@ public class CSharpPluginTest {
     @Test
     public void testRunTestsFailing() {
         Path path = TestUtils.getPath(getClass(), "FailingProject");
-
         RunResult runResult = this.csPlugin.runTests(path);
-
         assertEquals(RunResult.Status.TESTS_FAILED, runResult.status);
     }
 }
