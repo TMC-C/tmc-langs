@@ -36,7 +36,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 
-
 public class CSharpPlugin extends AbstractLanguagePlugin {
 
     private static final Path SRC_PATH = Paths.get("src");
@@ -44,7 +43,7 @@ public class CSharpPlugin extends AbstractLanguagePlugin {
     private static final String CANNOT_RUN_TESTS_MESSAGE = "Failed to run tests.";
     private static final String CANNOT_PARSE_TEST_RESULTS_MESSAGE = "Failed to read test results.";
     private static final String CANNOT_SCAN_EXERCISE_MESSAGE = "Failed to scan exercise.";
-    private static final String CANNOT_PARSE_EXERCISE_DESCRIPTION_MESSAGE =
+    private static final String CANNOT_PARSE_EXERCISE_DESCRIPTION_MESSAGE = 
             "Failed to parse exercise description.";
     private static final String CANNOT_LOCATE_RUNNER_MESSAGE = "Failed to locate runner.";
     private static final String CANNOT_PURGE_OLD_RESULTS_MESSAGE =
@@ -82,7 +81,7 @@ public class CSharpPlugin extends AbstractLanguagePlugin {
 
         try {
             ProcessResult result = runner.call();
-            
+
             if (result.statusCode != 0) {
                 log.error(CANNOT_SCAN_EXERCISE_MESSAGE);
                 return Optional.absent();
@@ -104,13 +103,13 @@ public class CSharpPlugin extends AbstractLanguagePlugin {
 
     @Override
     public RunResult runTests(Path path) {
-//        deleteOldResults(path);
+        deleteOldResults(path);
 
         ProcessRunner runner = new ProcessRunner(getTestCommand(), path);
 
         try {
             ProcessResult result = runner.call();
-
+            
             if (result.statusCode != 0) {
                 log.error(CANNOT_RUN_TESTS_MESSAGE);
                 return null;
@@ -169,10 +168,17 @@ public class CSharpPlugin extends AbstractLanguagePlugin {
         if (envVarPath != null) {
             return envVarPath;
         }
-
+        
+        String testEnv = System.getProperty("TEST_ENV");
         try {
-            Scanner in = new Scanner(new FileReader("tmc-langs-csharp/bootstrapPath.txt"));
+            Scanner in;
+            if (testEnv == null) {
+                in = new Scanner(new FileReader("tmc-langs-csharp/bootstrapPath.txt"));
+            } else {
+                in = new Scanner(new FileReader("bootstrapPath.txt"));
+            }
             return in.nextLine();
+            
         } catch (Exception e) {
             log.error(CANNOT_LOCATE_RUNNER_MESSAGE, e);
             return null;
