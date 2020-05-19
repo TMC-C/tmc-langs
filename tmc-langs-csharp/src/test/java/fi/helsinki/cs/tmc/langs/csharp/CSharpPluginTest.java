@@ -79,9 +79,10 @@ public class CSharpPluginTest {
     }
 
     @Test()
-    public void checkCodeStyleReturnsEmptyResult() {
+    public void testCheckCodeStyleStratery() {
         Path path = TestUtils.getPath(getClass(), "PassingProject");
         ValidationResult result = this.csPlugin.checkCodeStyle(path, new Locale("en"));
         assertTrue(result.getStrategy() == Strategy.DISABLED);
     }
+
 }
