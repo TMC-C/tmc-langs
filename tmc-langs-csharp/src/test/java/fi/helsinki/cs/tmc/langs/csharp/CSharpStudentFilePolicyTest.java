@@ -31,7 +31,7 @@ public class CSharpStudentFilePolicyTest {
         final List<String> studentFiles = new ArrayList<>();
         TestUtils.collectPaths(projectPath, studentFiles, policy);
 
-        assertEquals(23, studentFiles.size());
+        assertEquals(2, studentFiles.size());
         assertTrue(studentFiles.contains("src" + File.separator + "PolicySample" + 
                 File.separator + "Program.cs"));
         assertTrue(studentFiles.contains("src" + File.separator + "PolicySample" + 
@@ -43,7 +43,7 @@ public class CSharpStudentFilePolicyTest {
         final List<String> studentFiles = new ArrayList<>();
         TestUtils.collectPaths(projectPath, studentFiles, policy);
 
-        assertEquals(23, studentFiles.size());
+        assertEquals(2, studentFiles.size());
         assertFalse(studentFiles.contains("test" + File.separator + "PolicySampleTests" + 
                 File.separator + "PrgramTest.cs"));
         assertFalse(studentFiles.contains("test" + File.separator + "PolicySampleTests" + 
