@@ -34,7 +34,7 @@ public class CSharpPluginTest {
     }
 
     @Test
-    public void getStudentFilePolicyReturnsPython3StudentFilePolicy() {
+    public void getStudentFilePolicyReturnsCSharpStudentFilePolicy() {
         StudentFilePolicy policy = this.csPlugin.getStudentFilePolicy(Paths.get(""));
 
         assertTrue(policy instanceof CSharpStudentFilePolicy);
