@@ -19,9 +19,9 @@ public class CSharpExerciseDescParserTest {
     private final Path noPointsSampleDir;
 
     public CSharpExerciseDescParserTest() {
-        Path desc_samples_dir = TestUtils.getPath(getClass(), "Desc_samples");
-        allPassedSampleDir = desc_samples_dir.resolve("all_tests_passed_sample");
-        noPointsSampleDir = desc_samples_dir.resolve("no_points_sample");
+        Path descSamplesDir = TestUtils.getPath(getClass(), "Desc_samples");
+        allPassedSampleDir = descSamplesDir.resolve("all_tests_passed_sample");
+        noPointsSampleDir = descSamplesDir.resolve("no_points_sample");
     }
 
     private void testDescAsExpected(TestDesc desc, String name, String[] points) {
@@ -33,8 +33,10 @@ public class CSharpExerciseDescParserTest {
     public void testDescParsePointsCorrectly() throws IOException {
         ImmutableList<TestDesc> descs = new CSharpExerciseDescParser(allPassedSampleDir).parse();
 
-        testDescAsExpected(descs.get(0), "PassingSampleTests.ProgramTest.TestGetName", new String[]{"1", "1.1"});
-        testDescAsExpected(descs.get(1), "PassingSampleTests.ProgramTest.TestGetYear", new String[]{"1", "1.2"});
+        testDescAsExpected(descs.get(0), "PassingSampleTests.ProgramTest.TestGetName", 
+                new String[]{"1", "1.1"});
+        testDescAsExpected(descs.get(1), "PassingSampleTests.ProgramTest.TestGetYear", 
+                new String[]{"1", "1.2"});
     }
 
     @Test
