@@ -1,11 +1,8 @@
 {
-  "PartiallyFailingSampleTests.ProgramTest.TestCheckSameFailed": [
-    "2",
-    "2.1"
+  "NoPoints.ProgramTest.TestCheckSameFailed": [
+    
   ],
-  "PartiallyFailingSampleTests.ProgramTest.TestCheckFinePassed": [
-    "2",
-    "2.2"
+  "NoPoints.ProgramTest.TestCheckFinePassed": [
+
   ]
 }
-

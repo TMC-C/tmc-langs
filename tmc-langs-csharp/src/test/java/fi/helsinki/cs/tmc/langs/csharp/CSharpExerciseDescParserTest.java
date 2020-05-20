@@ -16,12 +16,12 @@ import java.nio.file.Path;
 public class CSharpExerciseDescParserTest {
 
     private final Path allPassedSampleDir;
-    private final Path someFailedSampleDir;
+    private final Path noPointsSampleDir;
 
     public CSharpExerciseDescParserTest() {
         Path desc_samples_dir = TestUtils.getPath(getClass(), "Desc_samples");
         allPassedSampleDir = desc_samples_dir.resolve("all_tests_passed_sample");
-        someFailedSampleDir = desc_samples_dir.resolve("some_tests_failed_sample");
+        noPointsSampleDir = desc_samples_dir.resolve("no_points_sample");
     }
 
     private void testDescAsExpected(TestDesc desc, String name, String[] points) {
@@ -38,13 +38,12 @@ public class CSharpExerciseDescParserTest {
     }
 
     @Test
-    public void testThatParseWorksForNoPointsJson() throws IOException {
-        ImmutableList<TestDesc> descs = new CSharpExerciseDescParser(someFailedSampleDir).parse();
+    public void testDescParseEmptyPointsCorrectly() throws IOException {
+        ImmutableList<TestDesc> descs = new CSharpExerciseDescParser(noPointsSampleDir).parse();
 
         testDescAsExpected(descs.get(0), 
-                "PartiallyFailingSampleTests.ProgramTest.TestCheckFinePassed", 
-                new String[]{"2", "2.2"});
+                "NoPoints.ProgramTest.TestCheckSameFailed", new String[]{});
         testDescAsExpected(descs.get(1), 
-                "PartiallyFailingSampleTests.ProgramTest.TestCheckFinePassed", new String[]{});
+                "NoPoints.ProgramTest.TestCheckFinePassed", new String[]{});
     }
 }
