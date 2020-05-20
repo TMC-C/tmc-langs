@@ -28,8 +28,7 @@ before_install:
   - sudo chmod 277 /usr/local/lib/R/site-library
   - Rscript -e 'install.packages(c("devtools","testthat"),repos="http://cran.us.r-project.org")'
   - Rscript -e 'devtools::install_github("RTMC/tmc-r-tester/tmcRtestrunner")'
-  - chmod +x tmc-langs-csharp/dotnet-install.sh
-  - ./tmc-langs-csharp/dotnet-install.sh
+  - curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin
   - wget https://github.com/TMC-C/tmc-csharp-runner/releases/download/v1.0.0/tmc-csharp-runner.tar.gz -O /tmp/tmc-csharp-runner.tar.gz
   - tar -xvf /tmp/tmc-csharp-runner.tar.gz
   - export TMC_CSHARP_BOOTSTRAP_PATH=/tmp/publish/Bootstrap.dll
