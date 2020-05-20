@@ -32,10 +32,10 @@ public class CSharpStudentFilePolicyTest {
         TestUtils.collectPaths(projectPath, studentFiles, policy);
 
         assertEquals(2, studentFiles.size());
-        assertTrue(studentFiles.contains("src" + File.separator + "PolicySample" + 
-                File.separator + "Program.cs"));
-        assertTrue(studentFiles.contains("src" + File.separator + "PolicySample" + 
-                File.separator + "PolicySample.csproj"));
+        assertTrue(studentFiles.contains("src" + File.separator + "PolicySample"
+                + File.separator + "Program.cs"));
+        assertTrue(studentFiles.contains("src" + File.separator + "PolicySample"
+                + File.separator + "PolicySample.csproj"));
     }
 
     @Test
@@ -44,10 +44,10 @@ public class CSharpStudentFilePolicyTest {
         TestUtils.collectPaths(projectPath, studentFiles, policy);
 
         assertEquals(2, studentFiles.size());
-        assertFalse(studentFiles.contains("test" + File.separator + "PolicySampleTests" + 
-                File.separator + "PrgramTest.cs"));
-        assertFalse(studentFiles.contains("test" + File.separator + "PolicySampleTests" + 
-                File.separator + "PolicySampleTests.csproj"));
+        assertFalse(studentFiles.contains("test" + File.separator + "PolicySampleTests"
+                + File.separator + "PrgramTest.cs"));
+        assertFalse(studentFiles.contains("test" + File.separator + "PolicySampleTests"
+                + File.separator + "PolicySampleTests.csproj"));
 
     }
 }
