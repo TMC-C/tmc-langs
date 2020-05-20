@@ -23,7 +23,7 @@ public class CSharpPluginTest {
     private CSharpPlugin csPlugin;
     
     public CSharpPluginTest() {
-        //TestUtils.skipIfNotAvailable("dotnet");
+        TestUtils.skipIfNotAvailable("dotnet");
     }
 
     @Before
