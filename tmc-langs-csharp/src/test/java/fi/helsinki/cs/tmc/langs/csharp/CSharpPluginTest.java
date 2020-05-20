@@ -21,6 +21,10 @@ import java.util.Locale;
 public class CSharpPluginTest {
 
     private CSharpPlugin csPlugin;
+    
+    public CSharpPluginTest() {
+        TestUtils.skipIfNotAvailable("dotnet");
+    }
 
     @Before
     public void setUp() {
