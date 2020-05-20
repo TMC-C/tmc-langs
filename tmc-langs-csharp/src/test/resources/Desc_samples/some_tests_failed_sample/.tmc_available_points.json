@@ -1,0 +1,11 @@
+{
+  "PartiallyFailingSampleTests.ProgramTest.TestCheckSameFailed": [
+    "2",
+    "2.1"
+  ],
+  "PartiallyFailingSampleTests.ProgramTest.TestCheckFinePassed": [
+    "2",
+    "2.2"
+  ]
+}
+
