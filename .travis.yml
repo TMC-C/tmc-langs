@@ -33,7 +33,7 @@ before_install:
   - Rscript -e 'devtools::install_github("RTMC/tmc-r-tester/tmcRtestrunner")'
   - sudo apt-get install apt-transport-https -y -qq
   - wget https://github.com/TMC-C/tmc-csharp-runner/releases/download/v1.0.1/tmc-csharp-runner.tar.gz -O /tmp/tmc-csharp-runner.tar.gz
-  - tar -xvf /tmp/tmc-csharp-runner.tar.gz
+  - tar -xf /tmp/tmc-csharp-runner.tar.gz -C /tmp
   - export MSBUILD_EXE_PATH="/usr/share/dotnet/sdk/3.1.202/MSBuild.dll"
   - export TMC_CSHARP_BOOTSTRAP_PATH="/tmp/publish/Bootstrap.dll"
   - export PATH=$PATH:$PWD/bin
