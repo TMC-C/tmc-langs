@@ -23,8 +23,8 @@ env:
 
 before_install:
   - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-  - echo "deb https://cloud.r-project.org/bin/linux/ubuntu trusty/" | sudo tee -a /etc/apt/sources.list
-  - sudo add-apt-repository --yes ppa:beineri/opt-qt591-trusty
+  - echo "deb https://cloud.r-project.org/bin/linux/ubuntu xenial/" | sudo tee -a /etc/apt/sources.list
+  - sudo add-apt-repository --yes ppa:beineri/opt-qt591-xenial
   - sudo apt-get update -qq
   - sudo apt-get install r-base -y -qq
   - sudo apt-get install qt59base -qq
