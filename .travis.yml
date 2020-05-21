@@ -21,6 +21,9 @@ env:
 before_install:
   - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
   - echo "deb https://cloud.r-project.org/bin/linux/ubuntu trusty/" | sudo tee -a /etc/apt/sources.list
+  - wget https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+  - sudo dpkg -i packages-microsoft-prod.deb
+  - sudo add-apt-repository universe
   - sudo add-apt-repository --yes ppa:beineri/opt-qt591-trusty
   - sudo apt-get update -qq
   - sudo apt-get install r-base -y -qq
@@ -28,6 +31,8 @@ before_install:
   - sudo chmod 277 /usr/local/lib/R/site-library
   - Rscript -e 'install.packages(c("devtools","testthat"),repos="http://cran.us.r-project.org")'
   - Rscript -e 'devtools::install_github("RTMC/tmc-r-tester/tmcRtestrunner")'
+  - sudo apt-get install apt-transport-https -y -qq
+  - sudo apt-get update -qq
   - sudo apt-get install dotnet-sdk-3.1 -y -qq
   - wget https://github.com/TMC-C/tmc-csharp-runner/releases/download/v1.0.0/tmc-csharp-runner.tar.gz -O /tmp/tmc-csharp-runner.tar.gz
   - tar -xvf /tmp/tmc-csharp-runner.tar.gz
