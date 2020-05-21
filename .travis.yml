@@ -8,12 +8,13 @@ addons:
   apt:
     sources:
       - deadsnakes
-      - sourceline: 'deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet/ trusty main'
-        key_url: 'https://apt-mo.trafficmanager.net/repos/dotnet/dists/trusty/Release.gpg'
+      - sourceline: 'deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-trusty-prod trusty main'
+        key_url: 'https://packages.microsoft.com/keys/microsoft.asc'
     packages:
       - valgrind
       - check
       - python3.4
+      - dotnet-sdk-3.1
 env:
   global:
   - secure: yiW+hXiZEycKFzF19rLlejJX8BTGbncSisBHyE8uulZee5n7UVGXnG1yvt9+6hz0nvMbxL7r1Daql0xxRHXUFB9VYVUKhF0ycHyJO5ze87U51mlIKAL8UnCkmxpkHNdxY45olEdK+mEbZBtot67nenlwGDfxLI7laITkR8IBAvY=
@@ -23,9 +24,6 @@ env:
 before_install:
   - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
   - echo "deb https://cloud.r-project.org/bin/linux/ubuntu trusty/" | sudo tee -a /etc/apt/sources.list
-  - wget https://packages.microsoft.com/config/ubuntu/14.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-  - sudo dpkg -i packages-microsoft-prod.deb
-  - sudo add-apt-repository universe
   - sudo add-apt-repository --yes ppa:beineri/opt-qt591-trusty
   - sudo apt-get update -qq
   - sudo apt-get install r-base -y -qq
@@ -34,8 +32,6 @@ before_install:
   - Rscript -e 'install.packages(c("devtools","testthat"),repos="http://cran.us.r-project.org")'
   - Rscript -e 'devtools::install_github("RTMC/tmc-r-tester/tmcRtestrunner")'
   - sudo apt-get install apt-transport-https -y -qq
-  - sudo apt-get update -qq
-  - sudo apt-get install dotnet-sdk-3.1 -y -qq
   - wget https://github.com/TMC-C/tmc-csharp-runner/releases/download/v1.0.0/tmc-csharp-runner.tar.gz -O /tmp/tmc-csharp-runner.tar.gz
   - tar -xvf /tmp/tmc-csharp-runner.tar.gz
   - export TMC_CSHARP_BOOTSTRAP_PATH=/tmp/publish/Bootstrap.dll
