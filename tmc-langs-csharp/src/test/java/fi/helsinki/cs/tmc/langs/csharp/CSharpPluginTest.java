@@ -47,6 +47,7 @@ public class CSharpPluginTest {
     @Test
     public void testRunTestsPassing() {
         Path path = TestUtils.getPath(getClass(), "PassingProject");
+        System.out.println(path);
         RunResult runResult = this.csPlugin.runTests(path);
         assertEquals(RunResult.Status.PASSED, runResult.status);
 
@@ -63,6 +64,7 @@ public class CSharpPluginTest {
     @Test
     public void testRunTestsFailing() {
         Path path = TestUtils.getPath(getClass(), "FailingProject");
+        System.out.println(path);
         RunResult runResult = this.csPlugin.runTests(path);
         assertEquals(RunResult.Status.TESTS_FAILED, runResult.status);
 

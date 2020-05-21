@@ -164,11 +164,11 @@ public class CSharpPlugin extends AbstractLanguagePlugin {
     }
 
     private String[] getAvailablePointsCommand() {
-        return new String[]{"dotnet", getBootstrapPath(), "-p"};
+        return new String[]{"dotnet", getBootstrapPath(), "-p --project-dir"};
     }
 
     private String[] getTestCommand() {
-        return new String[]{"dotnet", getBootstrapPath(), "-t"};
+        return new String[]{"dotnet", getBootstrapPath(), "-t --project-dir"};
     }
 
     private String getBootstrapPath() {
