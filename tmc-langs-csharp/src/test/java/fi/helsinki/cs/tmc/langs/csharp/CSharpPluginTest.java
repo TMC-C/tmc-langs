@@ -48,6 +48,8 @@ public class CSharpPluginTest {
     public void testRunTestsPassing() {
         Path path = TestUtils.getPath(getClass(), "PassingProject");
         System.out.println(path);
+        System.out.println(System.getenv("TMC_CSHARP_BOOTSTRAP_PATH"));
+        System.out.println(System.getenv("MSBUILD_EXE_PATH"));
         RunResult runResult = this.csPlugin.runTests(path);
         assertEquals(RunResult.Status.PASSED, runResult.status);
 
