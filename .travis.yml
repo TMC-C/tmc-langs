@@ -28,6 +28,7 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install r-base -y -qq
   - sudo apt-get install qt59base -qq
+  - dotnet --list-sdks
   - sudo chmod 277 /usr/local/lib/R/site-library
   - Rscript -e 'install.packages(c("devtools","testthat"),repos="http://cran.us.r-project.org")'
   - Rscript -e 'devtools::install_github("RTMC/tmc-r-tester/tmcRtestrunner")'
