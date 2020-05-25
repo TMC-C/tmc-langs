@@ -54,7 +54,7 @@ public class CSharpPluginTest {
         System.out.println(System.getenv("MSBUILD_EXE_PATH"));
         System.out.println(new File(System.getenv("MSBUILD_EXE_PATH")).exists());
         RunResult runResult = this.csPlugin.runTests(path);
-        assertEquals(RunResult.Status.PASSED, runResult.status);
+        assertEquals(runResult.toString(), RunResult.Status.PASSED, runResult.status);
 
         TestResult testResult = runResult.testResults.get(0);
         assertTrue(testResult.isSuccessful());
@@ -71,7 +71,7 @@ public class CSharpPluginTest {
         Path path = TestUtils.getPath(getClass(), "FailingProject");
         System.out.println(path);
         RunResult runResult = this.csPlugin.runTests(path);
-        assertEquals(RunResult.Status.TESTS_FAILED, runResult.status);
+        assertEquals(runResult.toString(), RunResult.Status.TESTS_FAILED, runResult.status);
 
         TestResult testResult = runResult.testResults.get(0);
         assertTrue(!testResult.isSuccessful());
