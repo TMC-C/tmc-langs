@@ -32,7 +32,7 @@ before_install:
   - Rscript -e 'install.packages(c("devtools","testthat"),repos="http://cran.us.r-project.org")'
   - Rscript -e 'devtools::install_github("RTMC/tmc-r-tester/tmcRtestrunner")'
   - sudo apt-get install apt-transport-https -y -qq
-  - wget https://github.com/TMC-C/tmc-csharp-runner/releases/download/1.0.3.1/tmc-csharp-runner.tar.gz -O /tmp/tmc-csharp-runner.tar.gz
+  - wget https://github.com/TMC-C/tmc-csharp-runner/releases/download/1.0.4/tmc-csharp-runner.tar.gz -O /tmp/tmc-csharp-runner.tar.gz
   - tar -xf /tmp/tmc-csharp-runner.tar.gz -C /tmp
   - export TMC_CSHARP_BOOTSTRAP_PATH="/tmp/publish/Bootstrap.dll"
   - export PATH=$PATH:$PWD/bin
