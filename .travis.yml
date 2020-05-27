@@ -35,6 +35,7 @@ before_install:
   - wget https://github.com/TMC-C/tmc-csharp-runner/releases/download/1.0.4/tmc-csharp-runner.tar.gz -O /tmp/tmc-csharp-runner.tar.gz
   - tar -xf /tmp/tmc-csharp-runner.tar.gz -C /tmp
   - export TMC_CSHARP_BOOTSTRAP_PATH="/tmp/publish/Bootstrap.dll"
+  - export MSBUILD_EXE_PATH="/usr/share/dotnet/sdk/3.1.300/MSBuild.dll"
   - export PATH=$PATH:$PWD/bin
   - source /opt/qt59/bin/qt59-env.sh
   - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/lib
