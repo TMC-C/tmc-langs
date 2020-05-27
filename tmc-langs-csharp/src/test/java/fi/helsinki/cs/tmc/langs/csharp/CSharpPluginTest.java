@@ -79,6 +79,7 @@ public class CSharpPluginTest {
 
         Path projectPath = TestUtils.getPath(getClass(), "PassingProject");
         RunResult runResult = this.csPlugin.runTests(projectPath);
+        assertNotNull(runResult);
         assertEquals(runResult.toString(), RunResult.Status.PASSED, runResult.status);
 
         assertTrue(Files.exists(dirPath));
@@ -90,6 +91,7 @@ public class CSharpPluginTest {
         Path path = TestUtils.getPath(getClass(), "PassingProject");
 
         RunResult runResult = this.csPlugin.runTests(path);
+        assertNotNull(runResult);
         assertEquals(runResult.toString(), RunResult.Status.PASSED, runResult.status);
 
         TestResult testResult = runResult.testResults.get(0);
@@ -106,6 +108,7 @@ public class CSharpPluginTest {
     public void testRunTestsFailing() {
         Path path = TestUtils.getPath(getClass(), "FailingProject");
         RunResult runResult = this.csPlugin.runTests(path);
+        assertNotNull(runResult);
         assertEquals(runResult.toString(), RunResult.Status.TESTS_FAILED, runResult.status);
 
         TestResult testResult = runResult.testResults.get(0);
@@ -118,6 +121,7 @@ public class CSharpPluginTest {
     public void testRunTestsNonCompiling() {
         Path path = TestUtils.getPath(getClass(), "NonCompilingProject");
         RunResult runResult = this.csPlugin.runTests(path);
+        assertNotNull(runResult);
         assertEquals(runResult.toString(), RunResult.Status.COMPILE_FAILED, runResult.status);
     }
 
