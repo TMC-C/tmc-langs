@@ -12,6 +12,7 @@ import fi.helsinki.cs.tmc.langs.domain.RunResult;
 import fi.helsinki.cs.tmc.langs.domain.TestResult;
 import fi.helsinki.cs.tmc.langs.io.StudentFilePolicy;
 import fi.helsinki.cs.tmc.langs.utils.TestUtils;
+
 import java.io.IOException;
 import java.nio.file.Files;
 
@@ -87,6 +88,7 @@ public class CSharpPluginTest {
     @Test
     public void testRunTestsPassing() {
         Path path = TestUtils.getPath(getClass(), "PassingProject");
+
         RunResult runResult = this.csPlugin.runTests(path);
         assertEquals(runResult.toString(), RunResult.Status.PASSED, runResult.status);
 
