@@ -55,6 +55,8 @@ import java.util.zip.ZipFile;
 public class CSharpPlugin extends AbstractLanguagePlugin {
 
     private static final Path SRC_PATH = Paths.get("src");
+    private static final String RUNNER_ZIP_DOWNLOAD_URL = 
+            "https://github.com/TMC-C/tmc-csharp-runner/releases/download/1.0.4/tmc-csharp-runner.zip";
 
     private static final String CANNOT_RUN_TESTS_MESSAGE = "Failed to run tests.";
     private static final String CANNOT_PARSE_TEST_RESULTS_MESSAGE = "Failed to read test results.";
@@ -265,7 +267,7 @@ public class CSharpPlugin extends AbstractLanguagePlugin {
         try {
             if (!Files.exists(jarPath.resolve(Paths.get("tmc-csharp-runner", "Bootstrap.dll")))) {
                 File runnerZip = File.createTempFile("tmc-csharp-runner", null);
-                FileUtils.copyURLToFile(new URL("https://github.com/TMC-C/tmc-csharp-runner/releases/download/v1.0.2/tmc-csharp-runner.zip"), runnerZip);
+                FileUtils.copyURLToFile(new URL(RUNNER_ZIP_DOWNLOAD_URL), runnerZip);
 
                 File runnerDir = jarPath.resolve("tmc-csharp-runner").toFile();
                 runnerDir.mkdir();
