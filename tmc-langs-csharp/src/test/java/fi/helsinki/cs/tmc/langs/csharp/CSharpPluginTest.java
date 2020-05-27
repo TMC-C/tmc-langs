@@ -10,7 +10,6 @@ import fi.helsinki.cs.tmc.langs.domain.RunResult;
 import fi.helsinki.cs.tmc.langs.domain.TestResult;
 import fi.helsinki.cs.tmc.langs.io.StudentFilePolicy;
 import fi.helsinki.cs.tmc.langs.utils.TestUtils;
-import java.io.File;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -48,11 +47,11 @@ public class CSharpPluginTest {
     @Test
     public void testRunTestsPassing() {
         Path path = TestUtils.getPath(getClass(), "PassingProject");
-        System.out.println(path);
-        System.out.println(System.getenv("TMC_CSHARP_BOOTSTRAP_PATH"));
-        System.out.println(new File(System.getenv("TMC_CSHARP_BOOTSTRAP_PATH")).exists());
-        System.out.println(System.getenv("MSBUILD_EXE_PATH"));
-        System.out.println(new File(System.getenv("MSBUILD_EXE_PATH")).exists());
+//        System.out.println(path);
+//        System.out.println(System.getenv("TMC_CSHARP_BOOTSTRAP_PATH"));
+//        System.out.println(new File(System.getenv("TMC_CSHARP_BOOTSTRAP_PATH")).exists());
+//        System.out.println(System.getenv("MSBUILD_EXE_PATH"));
+//        System.out.println(new File(System.getenv("MSBUILD_EXE_PATH")).exists());
         RunResult runResult = this.csPlugin.runTests(path);
         assertEquals(runResult.toString(), RunResult.Status.PASSED, runResult.status);
 
