@@ -214,7 +214,7 @@ public class CSharpPlugin extends AbstractLanguagePlugin {
         Path jarPath = getJarPath();
         
         if (jarPath != null 
-        && Files.exists(jarPath.resolve(Paths.get("tmc-csharp-runner", "Bootstrap.dll")))) {
+            && Files.exists(jarPath.resolve(Paths.get("tmc-csharp-runner", "Bootstrap.dll")))) {
             return jarPath.resolve(Paths.get("tmc-csharp-runner", "Bootstrap.dll")).toString();
         } else {
             System.out.println("Runner downloading failed, defaulting to environment variable");
@@ -260,7 +260,9 @@ public class CSharpPlugin extends AbstractLanguagePlugin {
     private void ensureRunnerAvailability() {
         Path jarPath = getJarPath();
         
-        if (jarPath == null) { return; }
+        if (jarPath == null) { 
+            return; 
+        }
         
         try {
             if (!Files.exists(jarPath.resolve(Paths.get("tmc-csharp-runner", "Bootstrap.dll")))) {
@@ -277,10 +279,10 @@ public class CSharpPlugin extends AbstractLanguagePlugin {
         }
     }
     
-    private Path getJarPath() {
-        String jarPathString 
-            = CSharpPlugin.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-        
+    public Path getJarPath() {
+        String jarPathString
+                = CSharpPlugin.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+
         try {
             String decodedPath = URLDecoder.decode(jarPathString, "UTF-8");
 

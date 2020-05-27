@@ -1,6 +1,8 @@
 package fi.helsinki.cs.tmc.langs.csharp;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import fi.helsinki.cs.tmc.langs.abstraction.Strategy;
@@ -10,10 +12,13 @@ import fi.helsinki.cs.tmc.langs.domain.RunResult;
 import fi.helsinki.cs.tmc.langs.domain.TestResult;
 import fi.helsinki.cs.tmc.langs.io.StudentFilePolicy;
 import fi.helsinki.cs.tmc.langs.utils.TestUtils;
-import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import org.apache.commons.io.FileUtils;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -39,20 +44,49 @@ public class CSharpPluginTest {
     }
 
     @Test
+    public void testCSharpIsRecognizedAsCSharp() {
+        Path csharpProjectPath = TestUtils.getPath(getClass(), "PassingProject");
+        assertTrue(csPlugin.isExerciseTypeCorrect(csharpProjectPath));
+    }
+
+    @Test
+    public void testPythonIsNotRecognizedAsCSharp() {
+        Path pythonProjectPath = TestUtils.getPath(getClass(), "PythonProject");
+        assertFalse(csPlugin.isExerciseTypeCorrect(pythonProjectPath));
+    }
+
+    @Test
     public void getStudentFilePolicyReturnsCSharpStudentFilePolicy() {
         StudentFilePolicy policy = this.csPlugin.getStudentFilePolicy(Paths.get(""));
-
         assertTrue(policy instanceof CSharpStudentFilePolicy);
+    }
+
+    @Test
+    public void testJarPathExists() {
+        Path jarPath = csPlugin.getJarPath();
+        assertNotNull(jarPath);
+    }
+
+    @Test
+    public void testDownloadingRunner() throws IOException {
+        Path jarPath = csPlugin.getJarPath();
+        Path dirPath = jarPath.resolve(Paths.get("tmc-csharp-runner"));
+
+        if (Files.exists(dirPath)) {
+            FileUtils.deleteDirectory(dirPath.toFile());
+        }
+
+        Path projectPath = TestUtils.getPath(getClass(), "PassingProject");
+        RunResult runResult = this.csPlugin.runTests(projectPath);
+        assertEquals(runResult.toString(), RunResult.Status.PASSED, runResult.status);
+
+        assertTrue(Files.exists(dirPath));
+        assertTrue(Files.exists(jarPath.resolve(Paths.get("tmc-csharp-runner", "Bootstrap.dll"))));
     }
 
     @Test
     public void testRunTestsPassing() {
         Path path = TestUtils.getPath(getClass(), "PassingProject");
-        System.out.println(path);
-        System.out.println(System.getenv("TMC_CSHARP_BOOTSTRAP_PATH"));
-        System.out.println(new File(System.getenv("TMC_CSHARP_BOOTSTRAP_PATH")).exists());
-        System.out.println(System.getenv("MSBUILD_EXE_PATH"));
-        System.out.println(new File(System.getenv("MSBUILD_EXE_PATH")).exists());
         RunResult runResult = this.csPlugin.runTests(path);
         assertEquals(runResult.toString(), RunResult.Status.PASSED, runResult.status);
 
@@ -69,7 +103,6 @@ public class CSharpPluginTest {
     @Test
     public void testRunTestsFailing() {
         Path path = TestUtils.getPath(getClass(), "FailingProject");
-        System.out.println(path);
         RunResult runResult = this.csPlugin.runTests(path);
         assertEquals(runResult.toString(), RunResult.Status.TESTS_FAILED, runResult.status);
 
@@ -77,7 +110,13 @@ public class CSharpPluginTest {
         assertTrue(!testResult.isSuccessful());
         assertTrue(!testResult.getMessage().isEmpty());
         assertEquals(0, testResult.points.size());
-        assertEquals(3, testResult.getException().size());
+    }
+
+    @Test
+    public void testRunTestsNonCompiling() {
+        Path path = TestUtils.getPath(getClass(), "NonCompilingProject");
+        RunResult runResult = this.csPlugin.runTests(path);
+        assertEquals(runResult.toString(), RunResult.Status.COMPILE_FAILED, runResult.status);
     }
 
     @Test
@@ -96,4 +135,21 @@ public class CSharpPluginTest {
         assertTrue(result.getStrategy() == Strategy.DISABLED);
     }
 
+    @Test
+    public void testCleanRemovesBinAndObj() throws IOException {
+        Path projectPath = TestUtils.getPath(getClass(), "PassingProject");
+        this.csPlugin.runTests(projectPath);
+
+        assertTrue(Files.exists(projectPath.resolve(Paths.get("src", "PassingSample", "bin"))));
+        assertTrue(Files.exists(projectPath.resolve(Paths.get("src", "PassingSample", "obj"))));
+        assertTrue(Files.exists(projectPath.resolve(Paths.get("test", "PassingSampleTests", "bin"))));
+        assertTrue(Files.exists(projectPath.resolve(Paths.get("test", "PassingSampleTests", "obj"))));
+
+        csPlugin.clean(projectPath);
+
+        assertFalse(Files.exists(projectPath.resolve(Paths.get("src", "PassingSample", "bin"))));
+        assertFalse(Files.exists(projectPath.resolve(Paths.get("src", "PassingSample", "obj"))));
+        assertFalse(Files.exists(projectPath.resolve(Paths.get("test", "PassingSampleTests", "bin"))));
+        assertFalse(Files.exists(projectPath.resolve(Paths.get("test", "PassingSampleTests", "obj"))));
+    }
 }
