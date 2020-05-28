@@ -13,14 +13,12 @@ import fi.helsinki.cs.tmc.langs.domain.TestResult;
 import fi.helsinki.cs.tmc.langs.io.StudentFilePolicy;
 import fi.helsinki.cs.tmc.langs.utils.TestUtils;
 
-import java.io.IOException;
-import java.nio.file.Files;
-
+import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.apache.commons.io.FileUtils;
-
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Locale;
@@ -79,6 +77,7 @@ public class CSharpPluginTest {
 
         Path projectPath = TestUtils.getPath(getClass(), "PassingProject");
         RunResult runResult = this.csPlugin.runTests(projectPath);
+
         assertNotNull(runResult);
         assertEquals(runResult.toString(), RunResult.Status.PASSED, runResult.status);
 
@@ -143,19 +142,23 @@ public class CSharpPluginTest {
 
     @Test
     public void testCleanRemovesBinAndObj() throws IOException {
-        Path projectPath = TestUtils.getPath(getClass(), "PassingProject");
+        Path projectPath = TestUtils.getPath(getClass(), "CleanUpProject");
         this.csPlugin.runTests(projectPath);
 
         assertTrue(Files.exists(projectPath.resolve(Paths.get("src", "PassingSample", "bin"))));
         assertTrue(Files.exists(projectPath.resolve(Paths.get("src", "PassingSample", "obj"))));
-        assertTrue(Files.exists(projectPath.resolve(Paths.get("test", "PassingSampleTests", "bin"))));
-        assertTrue(Files.exists(projectPath.resolve(Paths.get("test", "PassingSampleTests", "obj"))));
+        assertTrue(Files.exists(
+                projectPath.resolve(Paths.get("test", "PassingSampleTests", "bin"))));
+        assertTrue(Files.exists(
+                projectPath.resolve(Paths.get("test", "PassingSampleTests", "obj"))));
 
         csPlugin.clean(projectPath);
 
         assertFalse(Files.exists(projectPath.resolve(Paths.get("src", "PassingSample", "bin"))));
         assertFalse(Files.exists(projectPath.resolve(Paths.get("src", "PassingSample", "obj"))));
-        assertFalse(Files.exists(projectPath.resolve(Paths.get("test", "PassingSampleTests", "bin"))));
-        assertFalse(Files.exists(projectPath.resolve(Paths.get("test", "PassingSampleTests", "obj"))));
+        assertFalse(Files.exists(
+                projectPath.resolve(Paths.get("test", "PassingSampleTests", "bin"))));
+        assertFalse(Files.exists(
+                projectPath.resolve(Paths.get("test", "PassingSampleTests", "obj"))));
     }
 }
