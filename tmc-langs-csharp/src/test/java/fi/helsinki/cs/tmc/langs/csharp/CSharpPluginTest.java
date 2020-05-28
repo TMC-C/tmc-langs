@@ -68,6 +68,7 @@ public class CSharpPluginTest {
 
     @Test
     public void testDownloadingRunner() throws IOException {
+        System.out.println("TEST #1 START");
         Path jarPath = csPlugin.getJarPath();
         Path dirPath = jarPath.resolve(Paths.get("tmc-csharp-runner"));
 
@@ -83,14 +84,17 @@ public class CSharpPluginTest {
 
         assertTrue(Files.exists(dirPath));
         assertTrue(Files.exists(jarPath.resolve(Paths.get("tmc-csharp-runner", "Bootstrap.dll"))));
+        System.out.println("TEST #1 END");
     }
 
     @Test
     public void testRunTestsPassing() {
+        System.out.println("TEST #2 START");
         Path path = TestUtils.getPath(getClass(), "PassingProject");
 
         RunResult runResult = this.csPlugin.runTests(path);
         assertNotNull(runResult);
+        System.out.println(runResult);
         assertEquals(runResult.toString(), RunResult.Status.PASSED, runResult.status);
 
         TestResult testResult = runResult.testResults.get(0);
@@ -101,10 +105,12 @@ public class CSharpPluginTest {
         assertTrue(testResult.points.contains("1.2"));
         assertEquals("", testResult.getMessage());
         assertEquals(0, testResult.getException().size());
+        System.out.println("TEST #2 END");
     }
 
     @Test
     public void testRunTestsFailing() {
+        System.out.println("TEST #3 START");
         Path path = TestUtils.getPath(getClass(), "FailingProject");
         RunResult runResult = this.csPlugin.runTests(path);
         assertNotNull(runResult);
@@ -114,35 +120,42 @@ public class CSharpPluginTest {
         assertTrue(!testResult.isSuccessful());
         assertTrue(!testResult.getMessage().isEmpty());
         assertEquals(0, testResult.points.size());
+        System.out.println("TEST #3 END");
     }
 
     @Test
     public void testRunTestsNonCompiling() {
+        System.out.println("TEST #4 START");
         Path path = TestUtils.getPath(getClass(), "NonCompilingProject");
         RunResult runResult = this.csPlugin.runTests(path);
         assertNotNull(runResult);
         assertEquals(runResult.toString(), RunResult.Status.COMPILE_FAILED, runResult.status);
+        System.out.println("TEST #4 END");
     }
 
     @Test
     public void testScanExercise() {
+        System.out.println("TEST #5 START");
         Path path = TestUtils.getPath(getClass(), "PassingProject");
         ExerciseDesc testDesc = this.csPlugin.scanExercise(path, "cs-tests").get();
         assertEquals("cs-tests", testDesc.name);
         assertEquals("PassingSampleTests.ProgramTest.TestGetName", testDesc.tests.get(0).name);
         assertEquals(2, testDesc.tests.get(0).points.size());
+        System.out.println("TEST #5 END");
     }
 
     @Test()
     public void testCheckCodeStyleStratery() {
+        System.out.println("TEST #6 START");
         Path path = TestUtils.getPath(getClass(), "PassingProject");
         ValidationResult result = this.csPlugin.checkCodeStyle(path, new Locale("en"));
         assertTrue(result.getStrategy() == Strategy.DISABLED);
+        System.out.println("TEST #6 END");
     }
 
     @Test
     public void testCleanRemovesBinAndObj() throws IOException {
-        Path projectPath = TestUtils.getPath(getClass(), "CleanUpProject");
+        Path projectPath = TestUtils.getPath(getClass(), "PassingProject");
         this.csPlugin.runTests(projectPath);
 
         assertTrue(Files.exists(projectPath.resolve(Paths.get("src", "PassingSample", "bin"))));
