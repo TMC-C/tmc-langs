@@ -92,6 +92,7 @@ public class CSharpPluginTest {
 
         RunResult runResult = this.csPlugin.runTests(path);
         assertNotNull(runResult);
+        System.out.println(runResult);
         assertEquals(runResult.toString(), RunResult.Status.PASSED, runResult.status);
 
         TestResult testResult = runResult.testResults.get(0);

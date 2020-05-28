@@ -56,7 +56,7 @@ public class CSharpPlugin extends AbstractLanguagePlugin {
 
     private static final Path SRC_PATH = Paths.get("src");
     private static final String RUNNER_ZIP_DOWNLOAD_URL
-            = "https://github.com/TMC-C/tmc-csharp-runner/releases/download/1.0.5/tmc-csharp-runner.zip";
+            = "https://github.com/TMC-C/tmc-csharp-runner/releases/download/1.0.5.1/tmc-csharp-runner.zip";
 
     private static final String CANNOT_RUN_TESTS_MESSAGE = "Failed to run tests.";
     private static final String CANNOT_PARSE_TEST_RESULTS_MESSAGE = "Failed to read test results.";
