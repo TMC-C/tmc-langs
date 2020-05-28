@@ -24,9 +24,7 @@ public final class RunResult {
         /**
          * The submission or tests did not compile.
          *
-         * <p>
-         * The compiler error should be given in
-         * {@code logs[SpecialLogs.COMPILER_OUTPUT]}.
+         * <p>The compiler error should be given in {@code logs[SpecialLogs.COMPILER_OUTPUT]}.
          */
         COMPILE_FAILED,
         /**
@@ -37,9 +35,7 @@ public final class RunResult {
          * For when no other status seems suitable, or the language plugin has
          * suffered an internal error.
          *
-         * <p>
-         * Details should be given in
-         * {@code logs[SpecialLogs.GENERIC_ERROR_MESSAGE]}.
+         * <p>Details should be given in {@code logs[SpecialLogs.GENERIC_ERROR_MESSAGE]}.
          */
         GENERIC_ERROR,
     }
@@ -52,8 +48,7 @@ public final class RunResult {
     /**
      * Whether each test passed and which points were awarded.
      *
-     * <p>
-     * If the tests could not be run (e.g. due to compilation failure) then this
+     * <p>If the tests could not be run (e.g. due to compilation failure) then this
      * may be empty (but not null).
      */
     public final ImmutableList<TestResult> testResults;
@@ -61,11 +56,9 @@ public final class RunResult {
     /**
      * Logs from the test run.
      *
-     * <p>
-     * The key may be an arbitrary string identifying the type of log.
+     * <p>The key may be an arbitrary string identifying the type of log.
      *
-     * <p>
-     * See the SpecialLogs class for names of logs that TMC understands. The
+     * <p>See the SpecialLogs class for names of logs that TMC understands. The
      * result may also contain other custom log types.
      */
     public final ImmutableMap<String, byte[]> logs;
