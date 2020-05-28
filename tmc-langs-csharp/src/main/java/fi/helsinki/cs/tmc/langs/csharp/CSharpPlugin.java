@@ -217,6 +217,13 @@ public class CSharpPlugin extends AbstractLanguagePlugin {
     }
 
     private String getBootstrapPath() {
+
+        String envVarPath = System.getenv("TMC_CSHARP_BOOTSTRAP_PATH");
+
+        if (envVarPath != null) {
+            return envVarPath;
+        }
+
         ensureRunnerAvailability();
 
         Path jarPath = getJarPath();
@@ -226,12 +233,6 @@ public class CSharpPlugin extends AbstractLanguagePlugin {
             return jarPath.resolve(Paths.get("tmc-csharp-runner", "Bootstrap.dll")).toString();
         } else {
             System.out.println("Runner downloading failed, defaulting to environment variable");
-        }
-
-        String envVarPath = System.getenv("TMC_CSHARP_BOOTSTRAP_PATH");
-
-        if (envVarPath != null) {
-            return envVarPath;
         }
 
         log.error(CANNOT_LOCATE_RUNNER_MESSAGE);
