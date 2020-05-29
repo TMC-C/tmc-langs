@@ -34,8 +34,6 @@ public class CSharpPluginTest {
     @Before
     public void setUp() {
         this.csPlugin = new CSharpPlugin();
-
-        System.setProperty("TEST_ENV", "TEST");
     }
 
     @Test
