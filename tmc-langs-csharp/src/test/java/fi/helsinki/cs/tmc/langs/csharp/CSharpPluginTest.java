@@ -4,6 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+<<<<<<< HEAD
+=======
+import static org.junit.Assume.assumeTrue;
+>>>>>>> master
 
 import fi.helsinki.cs.tmc.langs.abstraction.Strategy;
 import fi.helsinki.cs.tmc.langs.abstraction.ValidationResult;
@@ -34,6 +38,11 @@ public class CSharpPluginTest {
     @Before
     public void setUp() {
         this.csPlugin = new CSharpPlugin();
+<<<<<<< HEAD
+=======
+
+        System.setProperty("TEST_ENV", "TEST");
+>>>>>>> master
     }
 
     @Test
@@ -71,6 +80,12 @@ public class CSharpPluginTest {
 
     @Test
     public void testDownloadingRunner() throws IOException {
+<<<<<<< HEAD
+=======
+        //Hack for allowing tests to run just fine when on dev environment
+        assumeTrue(System.getenv("TMC_CSHARP_BOOTSTRAP_PATH") == null);
+
+>>>>>>> master
         Path jarPath = csPlugin.getJarPath();
         Path dirPath = jarPath.resolve(Paths.get("tmc-csharp-runner"));
 
@@ -162,6 +177,7 @@ public class CSharpPluginTest {
 
     @Test
     public void testCleanRemovesBinAndObj() throws IOException {
+<<<<<<< HEAD
         Path projectPath = TestUtils.getPath(getClass(), "PassingProject");
 
         this.csPlugin.runTests(projectPath);
@@ -181,5 +197,22 @@ public class CSharpPluginTest {
                 Paths.get("test", "PassingSampleTests", "bin"))));
         assertFalse(Files.exists(projectPath.resolve(
                 Paths.get("test", "PassingSampleTests", "obj"))));
+=======
+        Path path = TestUtils.getPath(getClass(), "PassingProject");
+
+        this.csPlugin.runTests(path);
+
+        assertTrue(Files.exists(path.resolve(Paths.get("src", "PassingSample", "bin"))));
+        assertTrue(Files.exists(path.resolve(Paths.get("src", "PassingSample", "obj"))));
+        assertTrue(Files.exists(path.resolve(Paths.get("test", "PassingSampleTests", "bin"))));
+        assertTrue(Files.exists(path.resolve(Paths.get("test", "PassingSampleTests", "obj"))));
+
+        csPlugin.clean(path);
+
+        assertFalse(Files.exists(path.resolve(Paths.get("src", "PassingSample", "bin"))));
+        assertFalse(Files.exists(path.resolve(Paths.get("src", "PassingSample", "obj"))));
+        assertFalse(Files.exists(path.resolve(Paths.get("test", "PassingSampleTests", "bin"))));
+        assertFalse(Files.exists(path.resolve(Paths.get("test", "PassingSampleTests", "obj"))));
+>>>>>>> master
     }
 }
