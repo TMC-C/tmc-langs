@@ -170,14 +170,18 @@ public class CSharpPluginTest {
 
         assertTrue(Files.exists(projectPath.resolve(Paths.get("src", "PassingSample", "bin"))));
         assertTrue(Files.exists(projectPath.resolve(Paths.get("src", "PassingSample", "obj"))));
-        assertTrue(Files.exists(projectPath.resolve(Paths.get("test", "PassingSampleTests", "bin"))));
-        assertTrue(Files.exists(projectPath.resolve(Paths.get("test", "PassingSampleTests", "obj"))));
+        assertTrue(Files.exists(projectPath.resolve(
+                Paths.get("test", "PassingSampleTests", "bin"))));
+        assertTrue(Files.exists(projectPath.resolve(
+                Paths.get("test", "PassingSampleTests", "obj"))));
 
         csPlugin.clean(projectPath);
 
         assertFalse(Files.exists(projectPath.resolve(Paths.get("src", "PassingSample", "bin"))));
         assertFalse(Files.exists(projectPath.resolve(Paths.get("src", "PassingSample", "obj"))));
-        assertFalse(Files.exists(projectPath.resolve(Paths.get("test", "PassingSampleTests", "bin"))));
-        assertFalse(Files.exists(projectPath.resolve(Paths.get("test", "PassingSampleTests", "obj"))));
+        assertFalse(Files.exists(projectPath.resolve(
+                Paths.get("test", "PassingSampleTests", "bin"))));
+        assertFalse(Files.exists(projectPath.resolve(
+                Paths.get("test", "PassingSampleTests", "obj"))));
     }
 }
